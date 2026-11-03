@@ -18,16 +18,18 @@ pub extern "C" fn main() {
 
     loop {
         port::B5::set_high();
-
+        send(b"hello ");
         ruduino::delay::delay_ms(100);
 
         port::B5::set_low();
-
-        for c in b"hello\r\n" {
-            while UCSR0A::read() & 0x20 == 0 {}
-            UDR0::write(*c);
-        }
-
+        send(b"world\n");
         ruduino::delay::delay_ms(100);
+    }
+}
+
+fn send(to_send: &[u8]) {
+    for c in to_send {
+        while UCSR0A::read() & 0x20 == 0 {}
+        UDR0::write(*c);
     }
 }
