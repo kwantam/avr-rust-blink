@@ -16,6 +16,8 @@ pub extern "C" fn main() {
     UCSR0C::write(UCSR0C::UCSZ00 | UCSR0C::UCSZ01); // 8n1
     UBRR0::write(51u8); // 38.4k, see page 199 of datasheet
 
+    send(b"RESET\n");
+
     loop {
         port::B5::set_high();
         send(b"hello ");
